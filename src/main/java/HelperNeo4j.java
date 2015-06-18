@@ -69,8 +69,10 @@ public class HelperNeo4j {
             visitLink.setProperty("relation","Visits");
 
             GlobalVars.Restaurants.get(restaurant).get("VisitedBy").add(pNode);
+            GlobalVars.People.get(person).get("Visits").add(rNode);
+            
         }
 
-    
+
 
 }
