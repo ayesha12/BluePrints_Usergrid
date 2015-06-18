@@ -6,6 +6,7 @@ import com.tinkerpop.blueprints.Vertex;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by ayeshadastagiri on 6/18/15.
@@ -75,4 +76,15 @@ public class HelperNeo4j {
 
 
 
+
+    public static void Follows(String followed, String follower){
+
+        Vertex followedNode = GlobalVars.People.get(followed).get("Node").get(0);
+        Vertex followerNode = GlobalVars.People.get(follower).get("Node").get(0);
+
+
+        Edge edge1 = graph.addEdge(null, followedNode, followerNode, "Relation");
+
+        GlobalVars.People.put()
+    }
 }
