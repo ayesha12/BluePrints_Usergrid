@@ -13,9 +13,9 @@ public class HelperNeo4j {
 
 
 
-    Graph graph = GraphFactory.open("src/main/resources/graph.properties");
+    static Graph graph = GraphFactory.open("src/main/resources/graph.properties");
 
-    public void AddNode(String name, Enum nType) {
+    public static void AddNode(String name, Enum nType) {
 
         Vertex node = graph.addVertex(null);
 
@@ -59,7 +59,7 @@ public class HelperNeo4j {
     }
 
 
-        public void Visits(String person, String restaurant){
+        public static void Visits(String person, String restaurant){
 
             List<Vertex> pNode = GlobalVars.People.get(person).get("Node");
 
