@@ -14,6 +14,6 @@ public class GlobalVars {
     }
 
     static HashMap<String,HashMap<String, List<Vertex>>> People = new HashMap<String,HashMap<String, List<Vertex>> >();
-    static HashMap<String,HashMap> Restaurants = new HashMap<String,HashMap>();
+    static HashMap<String,HashMap<String, List<Vertex>>> Restaurants = new HashMap<String,HashMap<String, List<Vertex>>>();
 
 }
