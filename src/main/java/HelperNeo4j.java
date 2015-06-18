@@ -77,14 +77,31 @@ public class HelperNeo4j {
 
 
 
-    public static void Follows(String followed, String follower){
+    public static void Follows(String follower, String followed){
+
+        Vertex followerNode = GlobalVars.People.get(follower).get("Node").get(0);
+        Vertex followedNode = GlobalVars.People.get(followed).get("Node").get(0);
+
+        Edge edge1 = graph.addEdge(null, followerNode, followedNode, "relation");
+        edge1.setProperty("relation","Follows");
+
+        GlobalVars.People.get(follower).get("Follows").add(followedNode);
+        GlobalVars.People.get(followed).get("FollowedBy").add(followerNode);
+
+    }
+
+    public static void FollowedBy(String followed, String follower){
 
         Vertex followedNode = GlobalVars.People.get(followed).get("Node").get(0);
         Vertex followerNode = GlobalVars.People.get(follower).get("Node").get(0);
 
 
-        Edge edge1 = graph.addEdge(null, followedNode, followerNode, "Relation");
+        Edge edge1 = graph.addEdge(null, followedNode, followerNode, "relation");
 
-        GlobalVars.People.put()
+        edge1.setProperty("relation","FollowedBy");
+
+        GlobalVars.People.get(follower).get("Follows").add(followedNode);
+        GlobalVars.People.get(followed).get("FollowedBy").add(followerNode);
+
     }
 }
