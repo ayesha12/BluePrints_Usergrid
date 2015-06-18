@@ -1,3 +1,4 @@
+import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.GraphFactory;
 import com.tinkerpop.blueprints.Vertex;
@@ -61,10 +62,15 @@ public class HelperNeo4j {
 
         public static void Visits(String person, String restaurant){
 
-            List<Vertex> pNode = GlobalVars.People.get(person).get("Node");
+            Vertex pNode = GlobalVars.People.get(person).get("Node").get(0);
+            Vertex rNode = GlobalVars.Restaurants.get(restaurant).get("Node").get(0);
+            Edge visitLink = graph.addEdge(null,pNode,rNode,"relation");
 
+            visitLink.setProperty("relation","Visits");
 
+            GlobalVars.Restaurants.get(restaurant).get("VisitedBy").add(pNode);
+        }
 
-    }
+    
 
 }
