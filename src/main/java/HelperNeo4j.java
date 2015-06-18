@@ -15,11 +15,10 @@ public class HelperNeo4j {
 
 
 
-    static Graph graph = GraphFactory.open("src/main/resources/graph.properties");
 
     public static void AddNode(String name, Enum nType) {
 
-        Vertex node = graph.addVertex(null);
+        Vertex node = GlobalVars.graph.addVertex(null);
 
         if (nType == GlobalVars.nodeType.PEOPLE) {
 
@@ -65,7 +64,7 @@ public class HelperNeo4j {
 
             Vertex pNode = GlobalVars.People.get(person).get("Node").get(0);
             Vertex rNode = GlobalVars.Restaurants.get(restaurant).get("Node").get(0);
-            Edge visitLink = graph.addEdge(null,pNode,rNode,"relation");
+            Edge visitLink = GlobalVars.graph.addEdge(null,pNode,rNode,"relation");
 
             visitLink.setProperty("relation","Visits");
 
@@ -82,7 +81,7 @@ public class HelperNeo4j {
         Vertex followerNode = GlobalVars.People.get(follower).get("Node").get(0);
         Vertex followedNode = GlobalVars.People.get(followed).get("Node").get(0);
 
-        Edge edge1 = graph.addEdge(null, followerNode, followedNode, "relation");
+        Edge edge1 = GlobalVars.graph.addEdge(null, followerNode, followedNode, "relation");
         edge1.setProperty("relation","Follows");
 
         GlobalVars.People.get(follower).get("Follows").add(followedNode);
@@ -96,7 +95,7 @@ public class HelperNeo4j {
         Vertex followerNode = GlobalVars.People.get(follower).get("Node").get(0);
 
 
-        Edge edge1 = graph.addEdge(null, followedNode, followerNode, "relation");
+        Edge edge1 = GlobalVars.graph.addEdge(null, followedNode, followerNode, "relation");
 
         edge1.setProperty("relation","FollowedBy");
 

@@ -1,3 +1,5 @@
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.GraphFactory;
 import com.tinkerpop.blueprints.Vertex;
 
 import java.util.HashMap;
@@ -12,6 +14,7 @@ public class GlobalVars {
         PEOPLE,
         RESTAURANT
     }
+    static Graph graph = GraphFactory.open("src/main/resources/graph.properties");
 
     static HashMap<String,HashMap<String, List<Vertex>>> People = new HashMap<String,HashMap<String, List<Vertex>> >();
     static HashMap<String,HashMap<String, List<Vertex>>> Restaurants = new HashMap<String,HashMap<String, List<Vertex>>>();
