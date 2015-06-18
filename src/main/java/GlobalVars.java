@@ -1,4 +1,7 @@
+import com.tinkerpop.blueprints.Vertex;
+
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ayeshadastagiri on 6/18/15.
@@ -10,7 +13,7 @@ public class GlobalVars {
         RESTAURANT
     }
 
-    static HashMap<String,HashMap> People = new HashMap<String,HashMap>();
+    static HashMap<String,HashMap<String, List<Vertex>>> People = new HashMap<String,HashMap<String, List<Vertex>> >();
     static HashMap<String,HashMap> Restaurants = new HashMap<String,HashMap>();
 
 }

@@ -15,48 +15,54 @@ public class HelperNeo4j {
 
     Graph graph = GraphFactory.open("src/main/resources/graph.properties");
 
-    public void AddNode(String name, Enum nType){
+    public void AddNode(String name, Enum nType) {
 
         Vertex node = graph.addVertex(null);
 
-        if(nType == GlobalVars.nodeType.PEOPLE){
+        if (nType == GlobalVars.nodeType.PEOPLE) {
 
-            HashMap<String,List<Vertex>> persondetails = new HashMap<String, List<Vertex>>();
+            HashMap<String, List<Vertex>> persondetails = new HashMap<String, List<Vertex>>();
 
             List<Vertex> VisitNodes = new ArrayList<Vertex>();
             List<Vertex> FollowNodes = new ArrayList<Vertex>();
             List<Vertex> FollowedByNodes = new ArrayList<Vertex>();
             List<Vertex> infoNode = new ArrayList<Vertex>();
 
-            node.setProperty("Name",name);
-            node.setProperty("Type",GlobalVars.nodeType.PEOPLE);
+            node.setProperty("Name", name);
+            node.setProperty("Type", GlobalVars.nodeType.PEOPLE);
             infoNode.add(node);
 
-            persondetails.put("Node",infoNode);
-            persondetails.put("Visits",VisitNodes);
-            persondetails.put("Follows",FollowNodes);
-            persondetails.put("FollowedBy",FollowedByNodes);
+            persondetails.put("Node", infoNode);
+            persondetails.put("Visits", VisitNodes);
+            persondetails.put("Follows", FollowNodes);
+            persondetails.put("FollowedBy", FollowedByNodes);
 
-            GlobalVars.People.put(name,persondetails);
+            GlobalVars.People.put(name, persondetails);
 
-        }
-        else if(nType == GlobalVars.nodeType.RESTAURANT){
-            HashMap<String,List<Vertex>> restaurantdetails = new HashMap<String, List<Vertex>>();
+        } else if (nType == GlobalVars.nodeType.RESTAURANT) {
+            HashMap<String, List<Vertex>> restaurantdetails = new HashMap<String, List<Vertex>>();
 
             List<Vertex> infoNode = new ArrayList<Vertex>();
             List<Vertex> VisitedByNodes = new ArrayList<Vertex>();
 
-            node.setProperty("Name",name);
-            node.setProperty("Type",GlobalVars.nodeType.RESTAURANT);
+            node.setProperty("Name", name);
+            node.setProperty("Type", GlobalVars.nodeType.RESTAURANT);
             infoNode.add(node);
 
-            restaurantdetails.put("Node",infoNode);
-            restaurantdetails.put("VisitedBy",VisitedByNodes);
+            restaurantdetails.put("Node", infoNode);
+            restaurantdetails.put("VisitedBy", VisitedByNodes);
 
-            GlobalVars.Restaurants.put(name,restaurantdetails);
+            GlobalVars.Restaurants.put(name, restaurantdetails);
 
 
         }
+    }
+
+
+        public void Visits(String person, String restaurant){
+
+            List<Vertex> pNode = GlobalVars.People.get(person).get("Node");
+
 
 
     }
