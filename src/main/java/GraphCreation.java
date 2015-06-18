@@ -7,20 +7,20 @@ public class GraphCreation {
 
     public static void main(){
 
-        HelperNeo4j.AddNode("Alex", PEOPLE);
-        HelperNeo4j.AddNode("Barney", PEOPLE);
-        HelperNeo4j.AddNode("Carrie", PEOPLE);
-        HelperNeo4j.AddNode("Don", PEOPLE);
-        HelperNeo4j.AddNode("Eric", PEOPLE);
-        HelperNeo4j.AddNode("Farah", PEOPLE);
-        HelperNeo4j.AddNode("Gary", PEOPLE);
+        HelperNeo4j.AddNode("Alex", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Barney", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Carrie", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Don", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Eric", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Farah", GlobalVars.nodeType.PEOPLE);
+        HelperNeo4j.AddNode("Gary", GlobalVars.nodeType.PEOPLE);
 
-        HelperNeo4j.AddNode("Amici", RESTAURANTS);
-        HelperNeo4j.AddNode("BerrydAlive", RESTAURANTS);
-        HelperNeo4j.AddNode("Casablanca", RESTAURANTS);
-        HelperNeo4j.AddNode("Dominos", RESTAURANTS);
-        HelperNeo4j.AddNode("EmilyDiner", RESTAURANTS);
-        HelperNeo4j.AddNode("FillingStation", RESTAURANTS);
+        HelperNeo4j.AddNode("Amici", GlobalVars.nodeType.RESTAURANT);
+        HelperNeo4j.AddNode("BerrydAlive", GlobalVars.nodeType.RESTAURANT);
+        HelperNeo4j.AddNode("Casablanca", GlobalVars.nodeType.RESTAURANT);
+        HelperNeo4j.AddNode("Dominos", GlobalVars.nodeType.RESTAURANT);
+        HelperNeo4j.AddNode("EmilyDiner", GlobalVars.nodeType.RESTAURANT);
+        HelperNeo4j.AddNode("FillingStation", GlobalVars.nodeType.RESTAURANT);
 
         HelperNeo4j.Visits("Alex", "Amici");
         HelperNeo4j.Visits("Alex", "Casablanca");
@@ -35,8 +35,8 @@ public class GraphCreation {
         HelperNeo4j.Follows("Eric", "Don");
 
 
-        FollowedBy("Alex", "Carrie");
-        FollowedBy("Eric", "Gary");
+        HelperNeo4j.FollowedBy("Alex", "Carrie");
+        HelperNeo4j.FollowedBy("Eric", "Gary");
 
     }
 
