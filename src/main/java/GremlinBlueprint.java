@@ -51,6 +51,8 @@ public class GremlinBlueprint {
         link1 = graph.addEdge(null, person1, restaurant1, "Visits");
         link1 = graph.addEdge(null, person1, restaurant2, "Visits");
         link2 = graph.addEdge(null, person4, restaurant1, "Visits");
+        link2 = graph.addEdge(null, person4, restaurant5, "Visits");
+        link2 = graph.addEdge(null, person4, restaurant6, "Visits");
         link3 = graph.addEdge(null, person6, restaurant2, "Visits");
         link4 = graph.addEdge(null, person2, person1, "Follows");
         link5 = graph.addEdge(null, person3, person2, "Follows");
@@ -64,6 +66,9 @@ public class GremlinBlueprint {
         // It depends on 1) People who visit the same restaurant as him/her 2) People who they follow follow someone else
 
         List<String> AlreadyFollowing = new ArrayList<String>();
+        List<String> VisitedRest = new ArrayList<String>();
+
+
         GremlinPipeline GraphForPeopleAlreadyBeingFollowed = new GremlinPipeline(graph);
         GraphForPeopleAlreadyBeingFollowed.V("name", namePerson).out("Follows");
         for (Object nameFollowed: GraphForPeopleAlreadyBeingFollowed.property("name")){
@@ -72,38 +77,59 @@ public class GremlinBlueprint {
         }
 
         GremlinPipeline GraphPipeForRestaurantsVisitors = new GremlinPipeline(graph);
-        GraphPipeForRestaurantsVisitors.V("name",namePerson).out("Visits");
+        GraphPipeForRestaurantsVisitors.V("name",namePerson).out("Visits"); // get the name of the restaurants visited.
 
         for (Object nameRes :GraphPipeForRestaurantsVisitors.property("name")) {
+            VisitedRest.add((String) nameRes);
+        }
+//        System.out.println(VisitedRest);
+
+
+        for (String nameRes : VisitedRest) {
             GremlinPipeline VisitsPipe = new GremlinPipeline(graph).V("name", (String) nameRes).in("Visits");
             for (Object nameP : VisitsPipe.property("name")) {
                 if(!nameP.equals(namePerson) && !AlreadyFollowing.contains(nameP.toString())){
                     AlreadyFollowing.add(nameP.toString());
                     System.out.println(namePerson + " should follow " + nameP);}
+                GremlinPipeline RestToVisitPipe = new GremlinPipeline(graph).V("name", (String) nameP).out("Visits");
+                for (Object resRecom : RestToVisitPipe.property("name")){
+                 if(!VisitedRest.contains(resRecom)){
+                     System.out.println(namePerson + " can try " + resRecom);
+                 }
+                }
             }
-
         }
 
 
 
+
+        // Person following others and recommendations for this scenario
         GremlinPipeline GraphPipeForFollowed = new GremlinPipeline(graph);
         GraphPipeForFollowed.V("name", namePerson).out("Follows");
 
         for (Object nameFollows: GraphPipeForFollowed.property("name")) {
             GremlinPipeline FollowsPipe = new GremlinPipeline(graph).V("name", (String) nameFollows).out("Follows");
             for (Object nameP : FollowsPipe.property("name")) {
-                if(!nameP.equals(namePerson) && !AlreadyFollowing.contains(nameP.toString()) ){
+                if (!nameP.equals(namePerson) && !AlreadyFollowing.contains(nameP.toString())) {
                     AlreadyFollowing.add(nameP.toString());
-                    System.out.println(namePerson + " should follow " + nameP);}
-            }
+                    System.out.println(namePerson + " should follow " + nameP);
+                }
 
+                GremlinPipeline RestToVisitPipe = new GremlinPipeline(graph).V("name", (String) nameP).out("Visits");
+                for (Object resRecom : RestToVisitPipe.property("name")) {
+                    if (!VisitedRest.contains(resRecom)) {
+                        System.out.println(namePerson + " can try " + resRecom);
+                    }
+                }
+
+            }
         }
 
 
     }
     public static void main( String[] args ) throws ScriptException {
-        String name = "A";
-        CreateGraph();
+        String name = "C";
+//        CreateGraph();
         TraverseGraph(name);
         graph.shutdown();
 
