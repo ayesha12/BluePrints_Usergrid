@@ -1,6 +1,6 @@
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.gremlin.java.GremlinPipeline;
-import org.apache.tinkerpop.gremlin.util.Gremlin;
+import com.tinkerpop.pipes.util.iterators.SingleIterator;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -14,77 +14,84 @@ import java.util.List;
  * Created by ayeshadastagiri on 6/19/15.
  */
 public class GremlinBlueprint {
-    static Vertex person1,person2,person3,restaurant1;
+    static Vertex person1,person2,person3,person4,person5,person6,restaurant1,restaurant2,restaurant3,restaurant4,restaurant5,restaurant6;
     static Edge link1,link2,link3,link4,link5;
 
     public static void CreateGraph(){
         person1 = GlobalVars.graph.addVertex(1);
         person2 = GlobalVars.graph.addVertex(2);
         person3 = GlobalVars.graph.addVertex(3);
-        restaurant1 = GlobalVars.graph.addVertex(4);
+        person4 = GlobalVars.graph.addVertex(4);
+        person5 = GlobalVars.graph.addVertex(5);
+        person6 = GlobalVars.graph.addVertex(6);
+        restaurant1 = GlobalVars.graph.addVertex(7);
+        restaurant2 = GlobalVars.graph.addVertex(8);
+        restaurant3 = GlobalVars.graph.addVertex(9);
+        restaurant4 = GlobalVars.graph.addVertex(10);
+        restaurant5 = GlobalVars.graph.addVertex(11);
+        restaurant6 = GlobalVars.graph.addVertex(12);
 
+        person1.setProperty("name","A");
+        person2.setProperty("name","B");
+        person3.setProperty("name","C");
+        person4.setProperty("name","D");
+        person5.setProperty("name","E");
+        person6.setProperty("name","F");
+        restaurant1.setProperty("name","R1");
+        restaurant2.setProperty("name","R2");
+        restaurant3.setProperty("name","R3");
+        restaurant4.setProperty("name","R4");
+        restaurant5.setProperty("name","R5");
+        restaurant6.setProperty("name","R6");
 
-        person1.setProperty("name","John");
-        person2.setProperty("name","Mary");
-        person3.setProperty("name","Nick");
-        restaurant1.setProperty("name","SW");
 
         link1 = GlobalVars.graph.addEdge(null, person1, restaurant1, "Visits");
+        link1 = GlobalVars.graph.addEdge(null, person1, restaurant2, "Visits");
         link2 = GlobalVars.graph.addEdge(null, person2, restaurant1, "Visits");
         link3 = GlobalVars.graph.addEdge(null, person3, restaurant1, "Visits");
-        link4 = GlobalVars.graph.addEdge(null, person1, person2, "Follows");
+        link4 = GlobalVars.graph.addEdge(null, person2, person1, "Follows");
         link5 = GlobalVars.graph.addEdge(null, person3, person2, "FollowedBy");
 
 
-//        link1.setProperty("relation","likes");
-//        link2.setProperty("relation","likes");
-//        link3.setProperty("relation","likes");
-//        link4.setProperty("relation","follows");
-//        link5.setProperty("relation","followedby");
-
-
-//        System.out.println("Edges of " + GlobalVars.graph);
-//        for (Edge edge : GlobalVars.graph.getEdges()) {
-//            System.out.println(edge.getProperty("relation"));
-//        }
-//
-//        for (Vertex edge : GlobalVars.graph.getVertices()) {
-//            Iterable<Edge> e1 = edge.getEdges(Direction.IN);
-//            for (Edge e : e1){
-////                System.out.println(e.getProperty("relation"));
-//                if(e.getProperty("relation").equals("likes")){
-//                    System.out.println("hello");
-//                }
-//
-//            }
-//        }
     }
 
-    public static void TraverseGraph() throws ScriptException {
+    public static void TraverseGraph(String namePerson) throws ScriptException {
 
+        GremlinPipeline GraphPipeForRestaurantsVisitors = new GremlinPipeline(GlobalVars.graph);
+//        pipe.V("name", "John");
+        GraphPipeForRestaurantsVisitors.V("name",namePerson).out("Visits");
 
-//        //ScriptEngineManager manager = new ScriptEngineManager();
-//        ScriptEngine engine = new ScriptEngineManager.getEngineByName("gremlin-groovy");
-//
-//
-//        List results = new ArrayList();
-//        Bindings bindings = engine.createBindings();
-//        bindings.put("g", GlobalVars.graph);
-////        bindings.put("v", GlobalVars.graph.getVertex(1));
-//        engine.eval("g.V(1).name",bindings);
+        for (Object nameRes :GraphPipeForRestaurantsVisitors.property("name")) {
+            System.out.println(nameRes); //prints the restaurant name the person visited
+            GremlinPipeline VisitsPipe = new GremlinPipeline(GlobalVars.graph).V("name", (String) nameRes).in("Visits");
+            for (Object nameP : VisitsPipe.property("name")) {
+                if(!nameP.equals(namePerson)){
+                    System.out.println(namePerson + " should follow " + nameP);}
+            }
 
-        GremlinPipeline pipe = new GremlinPipeline();
-        pipe.start(GlobalVars.graph.getVertices());
-//        pipe.start(GlobalVars.graph.getVertices());
-        for (Object name :pipe.property("name")){
-            System.out.println( name);
         }
-//        pipe.start(GlobalVars.graph.getVertex(1));
-//        pipe.property("name");
+
+
+
+        GremlinPipeline GraphPipeForFollowed = new GremlinPipeline(GlobalVars.graph);
+        GraphPipeForFollowed.V("name", namePerson).out("Follows");
+
+        for (Object nameFollows: GraphPipeForFollowed.property("name")) {
+            System.out.println(nameFollows); //prints the person name who is following namePerson
+            GremlinPipeline FollowsPipe = new GremlinPipeline(GlobalVars.graph).V("name", (String) nameFollows).in("Follows");
+            for (Object nameP : FollowsPipe.property("name")) {
+                if(!nameP.equals(namePerson)){
+                    System.out.println(namePerson + " should follow " + nameP);}
+            }
+
+        }
+
+
     }
     public static void main( String[] args ) throws ScriptException {
-       CreateGraph();
-       TraverseGraph();
+        String name = "A";
+        //CreateGraph();
+        TraverseGraph(name);
         GlobalVars.graph.shutdown();
 
     }
