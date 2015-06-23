@@ -63,7 +63,7 @@ public class GremlinBlueprint {
             pipe2.V("name", namePerson).in("Follows");
 
             for (Object nameRes: pipe2.property("name")) {
-                System.out.println(nameRes); //prints the person name who is following namePerson
+                System.out.println(nameRes +"is following " + namePerson); //prints the person name who is following namePerson
             }
 
 
