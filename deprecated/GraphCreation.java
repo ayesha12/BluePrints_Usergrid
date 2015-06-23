@@ -33,7 +33,7 @@ public class GraphCreation {
 
         HelperNeo4j.Follows("Barney", "Alex");
         HelperNeo4j.Follows("Eric", "Don");
-
+        HelperNeo4j.Follows("Alex", "Farah");
 
         HelperNeo4j.FollowedBy("Alex", "Carrie");
         HelperNeo4j.FollowedBy("Eric", "Gary");
