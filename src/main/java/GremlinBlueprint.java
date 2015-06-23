@@ -14,7 +14,7 @@ import java.util.List;
 public class GremlinBlueprint {
     static Vertex person1,person2,person3,person4,person5,person6,restaurant1,restaurant2,restaurant3,restaurant4,restaurant5,restaurant6;
     static Edge link1,link2,link3,link4,link5;
-    
+
 
     static Graph graph = GraphFactory.open("src/main/resources/graph.properties");
 
@@ -72,11 +72,9 @@ public class GremlinBlueprint {
         }
 
         GremlinPipeline GraphPipeForRestaurantsVisitors = new GremlinPipeline(graph);
-//        pipe.V("name", "John");
         GraphPipeForRestaurantsVisitors.V("name",namePerson).out("Visits");
 
         for (Object nameRes :GraphPipeForRestaurantsVisitors.property("name")) {
-            System.out.println(nameRes); //prints the restaurant name the person visited
             GremlinPipeline VisitsPipe = new GremlinPipeline(graph).V("name", (String) nameRes).in("Visits");
             for (Object nameP : VisitsPipe.property("name")) {
                 if(!nameP.equals(namePerson) && !AlreadyFollowing.contains(nameP.toString())){
@@ -92,7 +90,6 @@ public class GremlinBlueprint {
         GraphPipeForFollowed.V("name", namePerson).out("Follows");
 
         for (Object nameFollows: GraphPipeForFollowed.property("name")) {
-            System.out.println(nameFollows); //prints the person name who is following namePerson
             GremlinPipeline FollowsPipe = new GremlinPipeline(graph).V("name", (String) nameFollows).out("Follows");
             for (Object nameP : FollowsPipe.property("name")) {
                 if(!nameP.equals(namePerson) && !AlreadyFollowing.contains(nameP.toString()) ){
@@ -105,7 +102,7 @@ public class GremlinBlueprint {
 
     }
     public static void main( String[] args ) throws ScriptException {
-        String name = "C";
+        String name = "A";
         CreateGraph();
         TraverseGraph(name);
         graph.shutdown();
