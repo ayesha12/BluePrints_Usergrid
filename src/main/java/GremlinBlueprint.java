@@ -15,7 +15,11 @@ public class GremlinBlueprint {
     static Vertex person1,person2,person3,person4,person5,person6,restaurant1,restaurant2,restaurant3,restaurant4,restaurant5,restaurant6;
     static Edge link1,link2,link3,link4,link5;
 
+<<<<<<< HEAD
     static Graph graph = GraphFactory.open("resources/graph.properties");
+=======
+    static Graph graph = GraphFactory.open("src/main/resources/graph.properties");
+>>>>>>> Adding the check to make sure recommendations do not repeat
 
     //Creates a graph with 6 people and 6 restaurants, and creates a few edges
     public static void CreateGraph(){
